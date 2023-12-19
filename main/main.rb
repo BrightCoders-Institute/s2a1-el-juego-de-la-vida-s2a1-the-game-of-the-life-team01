@@ -11,8 +11,13 @@ class GameLife
   def crear_tablero
     # Crear el tablero con las dimensiones proporcionadas
     tablero = Array.new(@rows) { Array.new(@cols, '.') }
-    @cels.times
-      tablero[rand(0..@cols)][rand(0..@rows)] = '*'
+    if @cels < @rows && @cols
+        @cels.times do
+        tablero[rand(0..@rows)][rand(0..@cols)] = '*'
+    end
+    else
+        
+    end
     return tablero
   end
 
