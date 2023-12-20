@@ -35,29 +35,39 @@ class GameLife
 
   end
   def evolucionar
-    nuevo_tablero = Array.new(@rows) { Array.new(@cols, '.') }
+    while true
+      print "\n"
+      nuevo_tablero = Array.new(@rows) { Array.new(@cols, '.') }
 
-    @tablero.each_with_index do |fila, i|
-      fila.each_with_index do |celula, j|
-        vecinos_vivos = contar_vecinos_vivos(i, j)
 
-        if celula == '*'  # Célula viva
-          if vecinos_vivos < 2 || vecinos_vivos > 3
-            nuevo_tablero[i][j] = '.'  # Celula muere
-          else
-            nuevo_tablero[i][j] = '*'  # Celula sigue viva
-          end
-        else  # Célula muerta
-          if vecinos_vivos == 3
-            nuevo_tablero[i][j] = '*'  # Celula nace
-          else
-            nuevo_tablero[i][j] = '.'  # Celula sigue muerta
+      @tablero.each_with_index do |fila, i|
+        fila.each_with_index do |celula, j|
+          vecinos_vivos = contar_vecinos_vivos(i, j)
+
+          if celula == '*'  # Célula viva
+            if vecinos_vivos < 2 || vecinos_vivos > 3
+              nuevo_tablero[i][j] = '.'  # Celula muere
+            else
+              nuevo_tablero[i][j] = '*'  # Celula sigue viva
+            end
+          else  # Célula muerta
+            if vecinos_vivos == 3
+              nuevo_tablero[i][j] = '*'  # Celula nace
+            else
+              nuevo_tablero[i][j] = '.'  # Celula sigue muerta
+            end
           end
         end
       end
-    end
 
-    @tablero = nuevo_tablero
+      if (@tablero == nuevo_tablero)
+        break;
+      else
+        @tablero = nuevo_tablero
+        mostrar_tablero
+      end
+      
+      end
   end
 
   def contar_vecinos_vivos(x, y)
@@ -90,9 +100,9 @@ tablero.mostrar_tablero
 #puts 'Presiona enter para continuar'
 #input= gets.chomp
 #if input.empty?
-  while true 
-    tablero.evolucionar 
-  end
+
+tablero.evolucionar
+
 #else 
   #puts 'No has presionado enter pra continuar'
 #end
