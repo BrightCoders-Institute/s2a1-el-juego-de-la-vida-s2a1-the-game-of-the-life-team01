@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-#! 
+
+# Clase con funciones para la lógica del desarrollo del juego.
 class GameLife
   def initialize(cols, rows, cels)
     @cols = cols
@@ -12,13 +13,11 @@ class GameLife
     # Crear el tablero con las dimensiones proporcionadas
     tablero = Array.new(@rows) { Array.new(@cols, '.') }
     if @cels < (@rows * @cols)
-        @cels.times do
-        tablero[rand(0..@rows-1)][rand(0..@cols-1)] = '*'
+      @cels.times do
+        tablero[rand(0..@rows - 1)][rand(0..@cols - 1)] = '*'
+      end
     end
-    else
-        
-    end
-    return tablero
+    tablero
   end
 
   def mostrar_tablero
@@ -29,13 +28,13 @@ class GameLife
     random1 = rand(0..@cols)
     random2 = rand(0..@rows)
 
-    @tablero[random1][random2] = "*"
+    @tablero[random1][random2] = '*'
 
     Array.new(@rows) { Array.new(@cols, '.') }
-
   end
+
   def evolucionar
-    while true
+    loop do
       print "\n"
       nuevo_tablero = Array.new(@rows) { Array.new(@cols, '.') }
 
@@ -44,38 +43,34 @@ class GameLife
         fila.each_with_index do |celula, j|
           vecinos_vivos = contar_vecinos_vivos(i, j)
 
-          if celula == '*'  # Célula viva
-            if vecinos_vivos < 2 || vecinos_vivos > 3
-              nuevo_tablero[i][j] = '.'  # Celula muere
-            else
-              nuevo_tablero[i][j] = '*'  # Celula sigue viva
-            end
-          else  # Célula muerta
-            if vecinos_vivos == 3
-              nuevo_tablero[i][j] = '*'  # Celula nace
-            else
-              nuevo_tablero[i][j] = '.'  # Celula sigue muerta
-            end
-          end
+          nuevo_tablero[i][j] = if celula == '*' # Célula viva
+                                  if vecinos_vivos < 2 || vecinos_vivos > 3
+                                    '.' # Celula muere
+                                  else
+                                    '*' # Celula sigue viva
+                                  end
+                                elsif vecinos_vivos == 3 # Célula muerta
+                                  '*'
+                                else
+                                  '.' # Celula sigue muerta
+                                end
         end
       end
 
-      if (@tablero == nuevo_tablero)
-        break;
-      else
-        @tablero = nuevo_tablero
-        mostrar_tablero
-      end
-      
-      end
+      break if @tablero == nuevo_tablero
+
+
+      @tablero = nuevo_tablero
+      mostrar_tablero
+    end
   end
 
-  def contar_vecinos_vivos(x, y)
+  def contar_vecinos_vivos(position_x, position_y)
     vecinos_vivos = 0
 
-    for i in (x - 1)..(x + 1)
-      for j in (y - 1)..(y + 1)
-        next if i < 0 || i >= @rows || j < 0 || j >= @cols || (i == x && j == y)
+    ((position_x - 1)..(position_x + 1)).each do |i|
+      ((position_y - 1)..(position_y + 1)).each do |j|
+        next if i.negative? || i >= @rows || j.negative? || j >= @cols || (i == position_x && j == position_y)
 
         vecinos_vivos += 1 if @tablero[i][j] == '*'
       end
@@ -87,22 +82,22 @@ end
 
 
 puts 'Por favor, ingresa la cantidad de columnas:'
-  cols = gets.chomp.to_i
+cols = gets.chomp.to_i
 puts 'Ahora, ingresa la cantidad de filas:'
-  rows = gets.chomp.to_i
+rows = gets.chomp.to_i
 
 puts 'Cuantas celulas quieres generar'
-  cels= gets.chomp.to_i
+cels = gets.chomp.to_i
 
 tablero = GameLife.new(cols, rows, cels)
 tablero.mostrar_tablero
 
-#puts 'Presiona enter para continuar'
-#input= gets.chomp
-#if input.empty?
+# puts 'Presiona enter para continuar'
+# input= gets.chomp
+# if input.empty?
 
 tablero.evolucionar
 
-#else 
-  #puts 'No has presionado enter pra continuar'
-#end
+# else
+# puts 'No has presionado enter pra continuar'
+# end
