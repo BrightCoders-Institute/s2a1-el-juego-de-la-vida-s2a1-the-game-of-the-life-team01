@@ -76,8 +76,6 @@ class GameLife
   end
 end
 
-puts 'Bienvenido al juego de la vida'
-
 def obtener_numero(mensaje)
   begin
     print mensaje
