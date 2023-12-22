@@ -56,10 +56,8 @@ class GameLife
                                 end
         end
       end
-
       break if @tablero == nuevo_tablero
-
-
+      
       @tablero = nuevo_tablero
       mostrar_tablero
     end
@@ -67,11 +65,9 @@ class GameLife
 
   def contar_vecinos_vivos(position_x, position_y)
     vecinos_vivos = 0
-
     ((position_x - 1)..(position_x + 1)).each do |i|
       ((position_y - 1)..(position_y + 1)).each do |j|
         next if i.negative? || i >= @rows || j.negative? || j >= @cols || (i == position_x && j == position_y)
-
         vecinos_vivos += 1 if @tablero[i][j] == '*'
       end
     end
@@ -94,23 +90,15 @@ def obtener_numero(mensaje)
   end
 end
 
-puts 'Por favor, ingresa la cantidad de columnas:'
+=begin
 cols = obtener_numero('Cantidad de columnas: ')
 
-puts 'Ahora, ingresa la cantidad de filas:'
 rows = obtener_numero('Cantidad de filas: ')
 
-cells = rows * cols / 2
+cells = obtener_numero('Catidad de celulas: ')
 
-tablero = GameLife.new(cols, rows, cells)
+tablero = GameLife.new(@cols, @rows, @cells)
 tablero.mostrar_tablero
 
-# puts 'Presiona enter para continuar'
-# input= gets.chomp
-# if input.empty?
-
 tablero.evolucionar
-
-# else
-# puts 'No has presionado enter pra continuar'
-# end
+=end  
