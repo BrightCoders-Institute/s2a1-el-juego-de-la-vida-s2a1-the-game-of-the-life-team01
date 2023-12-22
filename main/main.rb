@@ -2,18 +2,18 @@
 
 # Clase con funciones para la lógica del desarrollo del juego.
 class GameLife
-  def initialize(cols, rows, cels)
+  def initialize(cols, rows, cells)
     @cols = cols
     @rows = rows
-    @cels = cels
+    @cells = cells
     @tablero = crear_tablero
   end
 
   def crear_tablero
     # Crear el tablero con las dimensiones proporcionadas
     tablero = Array.new(@rows) { Array.new(@cols, '.') }
-    if @cels < (@rows * @cols)
-      @cels.times do
+    if @cells < (@rows * @cols)
+      @cells.times do
         tablero[rand(0..@rows - 1)][rand(0..@cols - 1)] = '*'
       end
     end
@@ -80,16 +80,29 @@ class GameLife
   end
 end
 
+puts 'Bienvenido al juego de la vida'
+
+def obtener_numero(mensaje)
+  begin
+    print mensaje
+    input = gets.chomp
+    number = Integer(input)
+    return number
+  rescue ArgumentError
+    puts 'Por favor, ingresa un número válido.'
+    retry
+  end
+end
 
 puts 'Por favor, ingresa la cantidad de columnas:'
-cols = gets.chomp.to_i
+cols = obtener_numero('Cantidad de columnas: ')
+
 puts 'Ahora, ingresa la cantidad de filas:'
-rows = gets.chomp.to_i
+rows = obtener_numero('Cantidad de filas: ')
 
-puts 'Cuantas celulas quieres generar'
-cels = gets.chomp.to_i
+cells = rows * cols / 2
 
-tablero = GameLife.new(cols, rows, cels)
+tablero = GameLife.new(cols, rows, cells)
 tablero.mostrar_tablero
 
 # puts 'Presiona enter para continuar'
